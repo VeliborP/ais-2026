@@ -1,0 +1,222 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    width: 50px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: initial !important;
+}
+
+.shop-hero {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    color: #fff;
+}
+
+.shop-hero .lead {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.shop-hero-search .form-control {
+    border: 0;
+}
+
+.shop-filter {
+    position: sticky;
+    top: 1rem;
+}
+
+.shop-chip {
+    font-weight: 500;
+    padding: 0.5em 0.9em;
+}
+
+.shop-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.shop-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.12) !important;
+}
+
+.shop-card-image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background-color: #f1f3f5;
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.shop-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.shop-card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+body {
+    background-color: #f6f7fb;
+    margin-bottom: 0;
+}
+
+.shop-navbar {
+    background-color: #fff;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.shop-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+}
+
+.shop-navbar .nav-link {
+    color: #495057;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+}
+
+.shop-navbar .nav-link:hover,
+.shop-navbar .nav-link.active {
+    color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.08);
+}
+
+.page-hero {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    color: #fff;
+}
+
+.page-hero p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.surface {
+    background-color: #fff;
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.06);
+}
+
+.table-modern {
+    margin-bottom: 0;
+}
+
+.table-modern thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-bottom-width: 1px;
+    white-space: nowrap;
+}
+
+.table-modern td,
+.table-modern th {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+}
+
+.thumb {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    background-color: #f1f3f5;
+}
+
+.thumb-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: #adb5bd;
+}
+
+.detail-list dt {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.detail-list dd {
+    margin-bottom: 0.75rem;
+}
+
+.product-hero-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 1rem;
+    background-color: #f1f3f5;
+}
+
+.auth-panel {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    color: #fff;
+}
+
+.empty-state {
+    background-color: #fff;
+    border-radius: 1rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.06);
+}
+
+.shop-footer {
+    background-color: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.btn {
+    border-radius: 0.6rem;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.6rem;
+}
+
+.dataTables_wrapper .row:first-child,
+.dataTables_wrapper .row:last-child {
+    padding: 0.75rem 1rem;
+}

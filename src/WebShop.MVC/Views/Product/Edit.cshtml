@@ -1,0 +1,112 @@
+﻿@model WebShop.MVC.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Izmena proizvoda";
+    ViewData["Subtitle"] = "Izmenite podatke o proizvodu.";
+}
+
+@section HeaderActions {
+    <a asp-action="Index" class="btn btn-light">Nazad na listu</a>
+}
+
+<form asp-action="Edit" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="surface p-4 p-lg-5 h-100">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label asp-for="Code" class="form-label"></label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-8">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Price" class="form-label"></label>
+                        <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+                        <span asp-validation-for="Price" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="CategoryId" class="form-label"></label>
+                        <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories"></select>
+                        <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Sačuvaj</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Otkaži</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="surface p-4 h-100">
+                <label asp-for="ImageFile" class="form-label"></label>
+                <div class="mb-3 text-center">
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <img id="preview" src="@Model.ImagePath" class="product-hero-image" />
+                    }
+                    else
+                    {
+                        <img id="preview" class="product-hero-image d-none" />
+                    }
+                </div>
+                <input asp-for="ImageFile" type="file" class="form-control" accept="image/png, image/jpeg, image/jpg, image/gif" />
+                <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                <button type="button" class="btn btn-sm btn-outline-danger mt-2" id="clearImageBtn">Obriši sliku</button>
+                <input type="hidden" asp-for="ImagePath" />
+                <input type="hidden" asp-for="DeleteImage" id="DeleteImage" value="false" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        const input = $('#ImageFile');
+        const preview = $('#preview');
+        const clearBtn = $('#clearImageBtn');
+        const deleteFlag = $('#DeleteImage');
+
+        input.on('change', function () {
+           const file = this.files[0];
+           if (!file) {
+               clearImage();
+               return;
+           }
+
+           const reader = new FileReader();
+           reader.onload = function (e) {
+               preview.attr('src', e.target.result);
+               preview.removeClass('d-none');
+               deleteFlag.val('false');
+           };
+           reader.readAsDataURL(file);
+        });
+
+        clearBtn.on('click', function () {
+            clearImage();
+            deleteFlag.val('true');
+        });
+
+        function clearImage() {
+            input.val('')
+            preview.attr('src', '');
+            preview.addClass("d-none");
+        }
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

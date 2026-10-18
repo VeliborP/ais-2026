@@ -1,0 +1,98 @@
+﻿@model WebShop.MVC.ViewModels.Cart.CartViewModel
+
+@{
+    ViewData["Title"] = "Korpa";
+    ViewData["Subtitle"] = Model.IsEmpty ? "Vaša korpa je trenutno prazna" : $"Broj artikala u korpi: {Model.TotalQuantity}";
+}
+
+@section HeaderActions {
+    <a asp-controller="Home" asp-action="Index" class="btn btn-light">Nastavi kupovinu</a>
+}
+
+@if (Model.IsEmpty)
+{
+    <div class="empty-state">
+        <div class="display-6 mb-2">🛒</div>
+        <h2 class="h5 fw-bold">Korpa je prazna</h2>
+        <p class="text-muted mb-4">Pogledajte ponudu i dodajte proizvode u korpu.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Pogledaj proizvode</a>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="surface overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-modern align-middle" style="min-width:640px;">
+                        <thead>
+                            <tr>
+                                <th>Proizvod</th>
+                                <th class="text-end">Cena</th>
+                                <th style="width:190px;">Količina</th>
+                                <th class="text-end">Ukupno</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if (!string.IsNullOrEmpty(item.ImagePath))
+                                            {
+                                                <img src="@item.ImagePath" alt="@item.ProductName" class="thumb" />
+                                            }
+                                            else
+                                            {
+                                                <span class="thumb thumb-placeholder">Nema slike</span>
+                                            }
+                                            <div>
+                                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId" class="fw-semibold text-decoration-none text-dark">@item.ProductName</a>
+                                                <div class="text-muted small">@item.ProductCode</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-end text-nowrap">@item.UnitPrice.ToString("F")</td>
+                                    <td>
+                                        <form asp-action="Update" method="post" class="d-flex gap-2">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="number" name="quantity" value="@item.Quantity" min="1" max="100" class="form-control form-control-sm" style="width:72px;" />
+                                            <button type="submit" class="btn btn-outline-secondary btn-sm">Ažuriraj</button>
+                                        </form>
+                                    </td>
+                                    <td class="text-end fw-semibold text-nowrap">@item.LineTotal.ToString("F")</td>
+                                    <td class="text-end">
+                                        <form asp-action="Remove" method="post">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Ukloni</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <form asp-action="Clear" method="post" class="mt-3">
+                <button type="submit" class="btn btn-link text-danger text-decoration-none px-0">Isprazni korpu</button>
+            </form>
+        </div>
+        <div class="col-lg-4">
+            <div class="surface p-4 shop-filter">
+                <h2 class="h5 fw-bold mb-3">Pregled</h2>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Broj artikala</span>
+                    <span>@Model.TotalQuantity</span>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between align-items-baseline mb-4">
+                    <span class="fw-semibold">Ukupno</span>
+                    <span class="h4 fw-bold mb-0">@Model.TotalAmount.ToString("F")</span>
+                </div>
+                <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary btn-lg w-100">Poruči</a>
+            </div>
+        </div>
+    </div>
+}

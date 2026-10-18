@@ -1,0 +1,66 @@
+﻿@using WebShop.DAL.Models
+@using WebShop.MVC.ViewModels.Order
+@model IEnumerable<WebShop.MVC.ViewModels.Order.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Porudžbine";
+    ViewData["Subtitle"] = "Pregled i upravljanje porudžbinama kupaca";
+    var selectedStatus = ViewBag.SelectedStatus as OrderStatus?;
+}
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a asp-action="Index" class="btn btn-sm rounded-pill @(selectedStatus == null ? "btn-dark" : "btn-outline-secondary")">Sve</a>
+    @foreach (var status in Enum.GetValues<OrderStatus>())
+    {
+        <a asp-action="Index" asp-route-status="@status" class="btn btn-sm rounded-pill @(selectedStatus == status ? "btn-dark" : "btn-outline-secondary")">@OrderViewModel.GetStatusName(status)</a>
+    }
+</div>
+
+<div class="surface overflow-hidden">
+    <div class="table-responsive">
+        <table id="ordersTable" class="table table-modern table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.OrderNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.Username)</th>
+                    <th>@Html.DisplayNameFor(model => model.City)</th>
+                    <th class="text-end">@Html.DisplayNameFor(model => model.ItemCount)</th>
+                    <th class="text-end">@Html.DisplayNameFor(model => model.TotalAmount)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@item.OrderNumber</td>
+                        <td class="text-muted" data-order="@item.OrderDate.ToString("yyyyMMddHHmmss")">@item.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@item.Username</td>
+                        <td>@item.City</td>
+                        <td class="text-end">@item.ItemCount</td>
+                        <td class="text-end fw-semibold" data-order="@item.TotalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)">@item.TotalAmount.ToString("F")</td>
+                        <td><span class="badge rounded-pill @item.StatusBadgeClass">@item.StatusName</span></td>
+                        <td class="text-end"><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detalji</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#ordersTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "order": [[1, "desc"]],
+            "columnDefs": [{ "orderable": false, "targets": [7] }],
+            "language": dataTablesLanguage
+        });
+    </script>
+}

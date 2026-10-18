@@ -1,0 +1,21 @@
+﻿@model List<StudentViewModel>
+
+@{
+    ViewData["Title"] = "O nama";
+    ViewData["Subtitle"] = "Tim koji je razvio WebShop aplikaciju.";
+}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var student in Model)
+    {
+        <div class="col">
+            <div class="surface p-4 h-100">
+                <div class="rounded-circle auth-panel d-inline-flex align-items-center justify-content-center fw-bold mb-3" style="width:56px;height:56px;">
+                    @string.Concat(student.Name.Split(' ').Select(n => n[0]))
+                </div>
+                <h5 class="fw-bold mb-1">@student.Name</h5>
+                <p class="text-muted mb-0">Broj indeksa: @student.IdNumber</p>
+            </div>
+        </div>
+    }
+</div>

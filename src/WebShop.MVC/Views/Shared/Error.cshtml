@@ -1,0 +1,14 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Greška";
+}
+
+<div class="empty-state mx-auto my-4" style="max-width:560px;">
+    <div class="display-6 fw-bold text-danger mb-2">Greška</div>
+    <p class="text-muted mb-3">Došlo je do greške prilikom obrade zahteva.</p>
+    @if (Model.ShowRequestId)
+    {
+        <p class="small text-muted">ID zahteva: <code>@Model.RequestId</code></p>
+    }
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Nazad na početnu</a>
+</div>

@@ -1,0 +1,60 @@
+﻿@model WebShop.MVC.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none">Početna</a></li>
+        @if (Model.CategoryId.HasValue)
+        {
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" asp-route-categoryId="@Model.CategoryId" class="text-decoration-none">@Model.CategoryName</a></li>
+        }
+        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+    </ol>
+</nav>
+
+<div class="surface p-4 p-lg-5">
+    <div class="row g-4 g-lg-5 align-items-center">
+        <div class="col-md-6">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="@Model.Name" class="product-hero-image" />
+            }
+            else
+            {
+                <div class="product-hero-image d-flex align-items-center justify-content-center text-muted">Proizvod nema sliku</div>
+            }
+        </div>
+        <div class="col-md-6">
+            <span class="badge bg-dark mb-2">@Model.CategoryName</span>
+            <h1 class="h2 fw-bold mb-2">@Model.Name</h1>
+            <div class="text-muted small mb-3">Šifra: @Model.Code</div>
+            <p class="mb-4">@Model.Description</p>
+            <div class="display-6 fw-bold mb-4">@Model.Price.ToString("F")</div>
+
+            @if (User.IsInRole("User"))
+            {
+                <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2" style="max-width:340px;">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Product", new { id = Model.Id })" />
+                    <input type="number" name="quantity" value="1" min="1" max="100" class="form-control form-control-lg" style="max-width:110px;" aria-label="Količina" />
+                    <button type="submit" class="btn btn-primary btn-lg flex-grow-1 text-nowrap">Dodaj u korpu</button>
+                </form>
+            }
+            else if (User.Identity?.IsAuthenticated != true)
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-lg">Prijavite se za kupovinu</a>
+            }
+
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="d-flex gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Izmeni</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Nazad na listu</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

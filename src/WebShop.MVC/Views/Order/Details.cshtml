@@ -1,0 +1,35 @@
+﻿@model WebShop.MVC.ViewModels.Order.OrderViewModel
+
+@{
+    ViewData["Title"] = "Porudžbina " + Model.OrderNumber;
+    ViewData["Subtitle"] = "Poručeno " + Model.OrderDate.ToString("dd.MM.yyyy u HH:mm");
+}
+
+@section HeaderActions {
+    <span class="badge rounded-pill fs-6 px-3 py-2 align-self-center @Model.StatusBadgeClass">@Model.StatusName</span>
+    <a asp-action="Index" class="btn btn-light">Nazad na moje porudžbine</a>
+}
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="surface overflow-hidden">
+            <div class="px-4 pt-4 pb-2">
+                <h2 class="h5 fw-bold mb-0">Stavke</h2>
+            </div>
+            <partial name="_OrderItems" model="Model" />
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="surface p-4">
+            <h2 class="h5 fw-bold mb-3">Podaci za dostavu</h2>
+            <partial name="_ShippingDetails" model="Model" />
+            @if (Model.CanCancel)
+            {
+                <hr />
+                <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Da li ste sigurni da želite da otkažete ovu porudžbinu?');">
+                    <button type="submit" class="btn btn-outline-danger w-100">Otkaži porudžbinu</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>

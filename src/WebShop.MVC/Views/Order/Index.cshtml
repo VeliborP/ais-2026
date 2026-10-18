@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebShop.MVC.ViewModels.Order.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Moje porudžbine";
+    ViewData["Subtitle"] = "Pregled svih vaših porudžbina i njihovog statusa";
+}
+
+@section HeaderActions {
+    <a asp-controller="Home" asp-action="Index" class="btn btn-light">Nastavi kupovinu</a>
+}
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <div class="display-6 mb-2">📦</div>
+        <h2 class="h5 fw-bold">Još uvek nemate porudžbina</h2>
+        <p class="text-muted mb-4">Kada poručite proizvode, porudžbine će se pojaviti ovde.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Započni kupovinu</a>
+    </div>
+}
+else
+{
+    <div class="surface overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-modern table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.OrderNumber)</th>
+                        <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+                        <th class="text-end">@Html.DisplayNameFor(model => model.ItemCount)</th>
+                        <th class="text-end">@Html.DisplayNameFor(model => model.TotalAmount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.OrderNumber</td>
+                            <td class="text-muted">@item.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td class="text-end">@item.ItemCount</td>
+                            <td class="text-end fw-semibold">@item.TotalAmount.ToString("F")</td>
+                            <td><span class="badge rounded-pill @item.StatusBadgeClass">@item.StatusName</span></td>
+                            <td class="text-end"><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detalji</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -1,0 +1,22 @@
+﻿@model WebShop.MVC.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+    ViewData["Subtitle"] = "Detalji kategorije";
+}
+
+@section HeaderActions {
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-light">Izmeni</a>
+    <a asp-action="Index" class="btn btn-outline-light">Nazad na listu</a>
+}
+
+<div class="surface p-4 p-lg-5" style="max-width:720px;">
+        <dl class="row detail-list mb-0">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Code)</dt>
+            <dd class="col-sm-9"><span class="badge bg-light text-dark border">@Model.Code</span></dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-9 fw-semibold">@Model.Name</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+        </dl>
+</div>

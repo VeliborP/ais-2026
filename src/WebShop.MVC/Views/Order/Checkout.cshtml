@@ -1,0 +1,94 @@
+﻿@model WebShop.MVC.ViewModels.Order.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Poručivanje";
+    ViewData["Subtitle"] = "Unesite podatke za dostavu i potvrdite porudžbinu";
+}
+
+@section HeaderActions {
+    <a asp-controller="Cart" asp-action="Index" class="btn btn-light">Nazad u korpu</a>
+}
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="surface p-4 p-lg-5">
+            <h2 class="h5 fw-bold mb-4">Podaci za dostavu</h2>
+            <form asp-action="Checkout" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label"></label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger small"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label asp-for="City" class="form-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="PostalCode" class="form-label"></label>
+                        <input asp-for="PostalCode" class="form-control" />
+                        <span asp-validation-for="PostalCode" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Note" class="form-label"></label>
+                    <textarea asp-for="Note" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Note" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Potvrdi porudžbinu</button>
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-secondary btn-lg">Otkaži</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="surface p-4 shop-filter">
+            <h2 class="h5 fw-bold mb-3">Pregled porudžbine</h2>
+            @foreach (var item in Model.Cart.Items)
+            {
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="@item.ImagePath" alt="@item.ProductName" class="thumb" />
+                    }
+                    else
+                    {
+                        <span class="thumb thumb-placeholder">Nema slike</span>
+                    }
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">@item.ProductName</div>
+                        <div class="text-muted small">@item.Quantity x @item.UnitPrice.ToString("F")</div>
+                    </div>
+                    <div class="fw-semibold text-nowrap">@item.LineTotal.ToString("F")</div>
+                </div>
+            }
+            <hr />
+            <div class="d-flex justify-content-between align-items-baseline">
+                <span class="fw-semibold">Ukupno</span>
+                <span class="h4 fw-bold mb-0">@Model.Cart.TotalAmount.ToString("F")</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

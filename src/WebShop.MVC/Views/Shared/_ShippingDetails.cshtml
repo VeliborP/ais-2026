@@ -1,0 +1,17 @@
+﻿@model WebShop.MVC.ViewModels.Order.OrderViewModel
+
+<dl class="row detail-list mb-0">
+    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.FullName)</dt>
+    <dd class="col-sm-7">@Model.FullName</dd>
+    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Address)</dt>
+    <dd class="col-sm-7">@Model.Address</dd>
+    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.City)</dt>
+    <dd class="col-sm-7">@Model.PostalCode @Model.City</dd>
+    <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Phone)</dt>
+    <dd class="col-sm-7">@Model.Phone</dd>
+    @if (!string.IsNullOrEmpty(Model.Note))
+    {
+        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Note)</dt>
+        <dd class="col-sm-7">@Model.Note</dd>
+    }
+</dl>

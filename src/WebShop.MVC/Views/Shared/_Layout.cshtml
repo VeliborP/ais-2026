@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/datatables/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/datatables/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebShop.MVC.styles.css" asp-append-version="true" />
+</head>
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string Active(string name) => controller == name ? "active" : "";
+}
+<body class="d-flex flex-column min-vh-100">
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-md navbar-light shop-navbar py-2">
+            <div class="container">
+                <a class="navbar-brand shop-brand fs-4" asp-area="" asp-controller="Home" asp-action="Index">WebShop</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav"
+                        aria-expanded="false" aria-label="Meni">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto gap-md-1">
+                        <li class="nav-item">
+                            <a class="nav-link @Active("Home")" asp-area="" asp-controller="Home" asp-action="Index">Početna</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @Active("Category")" asp-area="" asp-controller="Category" asp-action="Index">Kategorije</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @Active("Product")" asp-area="" asp-controller="Product" asp-action="Index">Proizvodi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @Active("AdminOrder")" asp-area="" asp-controller="AdminOrder" asp-action="Index">Porudžbine</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @Active("Order")" asp-area="" asp-controller="Order" asp-action="Index">Moje porudžbine</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav align-items-md-center gap-2">
+                        @if (User.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                @await Component.InvokeAsync("CartSummary")
+                            </li>
+                        }
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <span class="badge rounded-pill bg-light text-dark border px-3 py-2">@User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">Odjava</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm rounded-pill px-3" asp-controller="Account" asp-action="Login">Prijava</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="flex-grow-1 py-4">
+        <div class="container">
+            <partial name="_Alerts" />
+            @if (ViewData["Subtitle"] != null || IsSectionDefined("HeaderActions"))
+            {
+                <section class="page-hero rounded-4 p-4 mb-4">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                        <div>
+                            <h1 class="h3 fw-bold mb-1">@ViewData["Title"]</h1>
+                            @if (ViewData["Subtitle"] != null)
+                            {
+                                <p class="mb-0">@ViewData["Subtitle"]</p>
+                            }
+                        </div>
+                        @if (IsSectionDefined("HeaderActions"))
+                        {
+                            <div class="d-flex flex-wrap gap-2">
+                                @RenderSection("HeaderActions", required: false)
+                            </div>
+                        }
+                    </div>
+                </section>
+            }
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="shop-footer py-4 mt-auto">
+        <div class="container d-flex flex-wrap justify-content-between gap-2 text-muted small">
+            <span>&copy; 2026 WebShop</span>
+            <span>
+                <a class="text-muted text-decoration-none" asp-area="" asp-controller="Home" asp-action="About">O nama</a>
+                <span class="mx-2">·</span>
+                <a class="text-muted text-decoration-none" asp-area="" asp-controller="Home" asp-action="Contact">Kontakt</a>
+                <span class="mx-2">·</span>
+                <a class="text-muted text-decoration-none" asp-area="" asp-controller="Home" asp-action="Privacy">Politika privatnosti</a>
+            </span>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/datatables/js/dataTables.bootstrap5.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

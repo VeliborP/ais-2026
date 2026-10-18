@@ -1,0 +1,71 @@
+﻿@model IEnumerable<WebShop.MVC.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Proizvodi";
+    ViewData["Subtitle"] = "Upravljanje proizvodima u ponudi.";
+}
+
+@section HeaderActions {
+    <a asp-action="Create" class="btn btn-light">Dodaj novi proizvod</a>
+}
+
+<div class="surface overflow-hidden">
+    <div class="table-responsive">
+        <table id="productsTable" class="table table-hover table-modern">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@Html.DisplayNameFor(model => model.Code)</th>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                    <th class="text-end">@Html.DisplayNameFor(model => model.Price)</th>
+                    <th class="text-end"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width:72px;">
+                            @if (!string.IsNullOrEmpty(item.ImagePath))
+                            {
+                                <img src="@item.ImagePath" alt="@item.Name" class="thumb" />
+                            }
+                            else
+                            {
+                                <span class="thumb thumb-placeholder">Nema</span>
+                            }
+                        </td>
+                        <td><span class="badge bg-light text-dark border">@item.Code</span></td>
+                        <td>
+                            <div class="fw-semibold">@item.Name</div>
+                            <div class="text-muted small text-truncate" style="max-width:320px;">@item.Description</div>
+                        </td>
+                        <td><span class="badge bg-dark">@item.CategoryName</span></td>
+                        <td class="text-end fw-semibold" data-order="@item.Price">@item.Price.ToString("F")</td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Detalji</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Izmeni</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Obriši</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#productsTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "order": [[1, "asc"]],
+            "columnDefs": [{ "orderable": false, "targets": [0, 5] }],
+            "language": dataTablesLanguage
+        });
+    </script>
+}

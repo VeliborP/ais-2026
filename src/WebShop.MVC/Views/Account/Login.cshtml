@@ -1,0 +1,52 @@
+﻿@model WebShop.MVC.ViewModels.Account.LoginViewModel
+
+@{
+    ViewData["Title"] = "Prijava";
+}
+
+<div class="row justify-content-center py-md-4">
+    <div class="col-lg-9">
+        <div class="surface overflow-hidden">
+            <div class="row g-0">
+                <div class="col-md-5 auth-panel p-4 p-lg-5 d-flex flex-column justify-content-center">
+                    <h2 class="fw-bold mb-3">Dobrodošli nazad</h2>
+                    <p class="mb-0 opacity-75">Prijavite se da biste dodavali proizvode u korpu, poručivali i pratili svoje porudžbine.</p>
+                </div>
+                <div class="col-md-7 p-4 p-lg-5">
+                    <h4 class="fw-bold mb-4">Prijava</h4>
+
+                    <form asp-action="Login" method="post" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label"></label>
+                            <input asp-for="Username" class="form-control form-control-lg" autofocus />
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" type="password" class="form-control form-control-lg" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger py-2">
+                                @ViewBag.Error
+                            </div>
+                        }
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Prijavi se</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

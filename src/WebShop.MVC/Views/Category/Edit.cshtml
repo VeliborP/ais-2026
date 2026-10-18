@@ -1,0 +1,44 @@
+﻿@model WebShop.MVC.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Izmena kategorije";
+    ViewData["Subtitle"] = "Izmenite podatke o kategoriji.";
+}
+
+@section HeaderActions {
+    <a asp-action="Index" class="btn btn-light">Nazad na listu</a>
+}
+
+<div class="surface p-4 p-lg-5" style="max-width:720px;">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label asp-for="Code" class="form-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger small"></span>
+            </div>
+            <div class="col-md-8">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+        </div>
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary px-4">Sačuvaj</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Otkaži</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

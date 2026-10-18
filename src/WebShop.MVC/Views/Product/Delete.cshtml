@@ -1,0 +1,41 @@
+﻿@model WebShop.MVC.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Brisanje proizvoda";
+    ViewData["Subtitle"] = "Da li ste sigurni da želite da obrišete ovaj zapis?";
+}
+
+<div class="surface p-4 p-lg-5">
+    <div class="row g-4 align-items-center">
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="@Model.Name" class="product-hero-image" />
+            }
+            else
+            {
+                <div class="product-hero-image d-flex align-items-center justify-content-center text-muted">Proizvod nema sliku</div>
+            }
+        </div>
+        <div class="col-md-8">
+            <dl class="row detail-list mb-0">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Code)</dt>
+                <dd class="col-sm-8"><span class="badge bg-light text-dark border">@Model.Code</span></dd>
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-8 fw-semibold">@Model.Name</dd>
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Description)</dt>
+                <dd class="col-sm-8">@Model.Description</dd>
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CategoryName)</dt>
+                <dd class="col-sm-8">@Model.CategoryName</dd>
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Price)</dt>
+                <dd class="col-sm-8 fw-bold">@Model.Price.ToString("F")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form asp-action="Delete" class="d-flex gap-2 mt-4">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger px-4">Obriši</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Otkaži</a>
+    </form>
+</div>

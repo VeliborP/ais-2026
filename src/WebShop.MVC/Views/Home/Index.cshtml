@@ -1,0 +1,219 @@
+﻿@using System.Globalization
+@model WebShop.MVC.ViewModels.Home.IndexViewModel
+
+@{
+    ViewData["Title"] = "Početna";
+    var minPrice = Model.MinPrice?.ToString(CultureInfo.InvariantCulture);
+    var maxPrice = Model.MaxPrice?.ToString(CultureInfo.InvariantCulture);
+}
+
+<section class="shop-hero rounded-4 p-4 p-md-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+            <h1 class="display-6 fw-bold mb-2">Dobrodošli u WebShop</h1>
+            <p class="lead mb-0">Elektronika, knjige, odeća, oprema za dom i sport na jednom mestu. Pronađite proizvod koji vam treba i poručite ga u nekoliko klikova.</p>
+        </div>
+        <div class="col-lg-6">
+            <form asp-action="Index" method="get" class="shop-hero-search d-flex gap-2">
+                @if (Model.CategoryId.HasValue)
+                {
+                    <input type="hidden" name="categoryId" value="@Model.CategoryId" />
+                }
+                @if (minPrice != null)
+                {
+                    <input type="hidden" name="minPrice" value="@minPrice" />
+                }
+                @if (maxPrice != null)
+                {
+                    <input type="hidden" name="maxPrice" value="@maxPrice" />
+                }
+                <input type="hidden" name="sort" value="@Model.Sort" />
+                <input type="search" name="search" value="@Model.Search" class="form-control form-control-lg" placeholder="Pretražite proizvode..." aria-label="Pretraga proizvoda" />
+                <button type="submit" class="btn btn-light btn-lg px-4">Traži</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a asp-action="Index" asp-all-route-data="@Model.RouteValues(keepCategory: false)"
+       class="btn btn-sm rounded-pill @(Model.CategoryId.HasValue ? "btn-outline-secondary" : "btn-dark")">
+        Sve <span class="badge rounded-pill bg-light text-dark ms-1">@Model.AllProductsCount</span>
+    </a>
+    @foreach (var category in Model.Categories)
+    {
+        <a asp-action="Index" asp-all-route-data="@Model.RouteValues(categoryId: category.Id)"
+           class="btn btn-sm rounded-pill @(Model.CategoryId == category.Id ? "btn-dark" : "btn-outline-secondary")">
+            @category.Name <span class="badge rounded-pill bg-light text-dark ms-1">@category.ProductCount</span>
+        </a>
+    }
+</div>
+
+<div class="row g-4">
+    <aside class="col-lg-3">
+        <div class="card shadow-sm border-0 shop-filter">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Filteri</h5>
+                <form asp-action="Index" method="get">
+                    @if (!string.IsNullOrWhiteSpace(Model.Search))
+                    {
+                        <input type="hidden" name="search" value="@Model.Search" />
+                    }
+
+                    <div class="mb-3">
+                        <label for="categoryId" class="form-label">Kategorija</label>
+                        <select id="categoryId" name="categoryId" class="form-select">
+                            <option value="">Sve kategorije</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id" selected="@(Model.CategoryId == category.Id)">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Cena</label>
+                        <div class="d-flex gap-2">
+                            <input type="number" name="minPrice" value="@minPrice" min="0" step="0.01" class="form-control" placeholder="Od" aria-label="Cena od" />
+                            <input type="number" name="maxPrice" value="@maxPrice" min="0" step="0.01" class="form-control" placeholder="Do" aria-label="Cena do" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sort" class="form-label">Sortiranje</label>
+                        <select id="sort" name="sort" class="form-select" asp-items="Model.SortOptions"></select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Primeni filtere</button>
+                        @if (Model.HasActiveFilters)
+                        {
+                            <a asp-action="Index" class="btn btn-outline-secondary">Poništi filtere</a>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <section class="col-lg-9">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <div class="text-muted">
+                Pronađeno proizvoda: <strong class="text-dark">@Model.TotalCount</strong>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                @if (!string.IsNullOrWhiteSpace(Model.Search))
+                {
+                    <a asp-action="Index" asp-all-route-data="@Model.RouteValues(keepSearch: false)" class="badge rounded-pill bg-light text-dark border text-decoration-none shop-chip">
+                        Pretraga: @Model.Search &times;
+                    </a>
+                }
+                @if (Model.SelectedCategoryName != null)
+                {
+                    <a asp-action="Index" asp-all-route-data="@Model.RouteValues(keepCategory: false)" class="badge rounded-pill bg-light text-dark border text-decoration-none shop-chip">
+                        Kategorija: @Model.SelectedCategoryName &times;
+                    </a>
+                }
+                @if (Model.MinPrice.HasValue || Model.MaxPrice.HasValue)
+                {
+                    <a asp-action="Index" asp-all-route-data="@Model.RouteValues(keepPrice: false)" class="badge rounded-pill bg-light text-dark border text-decoration-none shop-chip">
+                        Cena: @(Model.MinPrice?.ToString("F") ?? "0") - @(Model.MaxPrice?.ToString("F") ?? "...") &times;
+                    </a>
+                }
+            </div>
+        </div>
+
+        @if (!Model.Products.Any())
+        {
+            <div class="text-center py-5 bg-light rounded-4">
+                <h4>Nema proizvoda koji odgovaraju filterima</h4>
+                <p class="text-muted">Pokušajte sa drugačijom pretragom ili poništite filtere.</p>
+                <a asp-action="Index" class="btn btn-primary">Prikaži sve proizvode</a>
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm shop-card">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="shop-card-image">
+                                @if (!string.IsNullOrEmpty(product.ImagePath))
+                                {
+                                    <img src="@product.ImagePath" alt="@product.Name" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Nema slike</span>
+                                }
+                                @if (!string.IsNullOrEmpty(product.CategoryName))
+                                {
+                                    <span class="badge bg-dark position-absolute top-0 start-0 m-2">@product.CategoryName</span>
+                                }
+                            </a>
+
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title mb-1">
+                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="text-dark text-decoration-none">@product.Name</a>
+                                </h5>
+                                @if (!string.IsNullOrEmpty(product.Description))
+                                {
+                                    <p class="card-text text-muted small shop-card-description">@product.Description</p>
+                                }
+
+                                <div class="mt-auto d-flex align-items-center justify-content-between gap-2">
+                                    <span class="fs-5 fw-bold">@product.Price.ToString("F")</span>
+                                    @if (User.IsInRole("User"))
+                                    {
+                                        <form asp-controller="Cart" asp-action="Add" method="post">
+                                            <input type="hidden" name="productId" value="@product.Id" />
+                                            <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                                            <button type="submit" class="btn btn-primary btn-sm text-nowrap">Dodaj u korpu</button>
+                                        </form>
+                                    }
+                                    else if (User.Identity?.IsAuthenticated != true)
+                                    {
+                                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-sm text-nowrap" title="Prijavite se za kupovinu">Prijavite se</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-primary btn-sm">Detalji</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (Model.TotalPages > 1)
+            {
+                <nav class="mt-4" aria-label="Stranice">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-all-route-data="@Model.RouteValues(page: Model.Page - 1)">Prethodna</a>
+                        </li>
+                        @for (var i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.Page ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-all-route-data="@Model.RouteValues(page: i)">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-all-route-data="@Model.RouteValues(page: Model.Page + 1)">Sledeća</a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        }
+    </section>
+</div>
+
+@section Scripts {
+    <script>
+        $('#sort, #categoryId').on('change', function () {
+            this.form.submit();
+        });
+    </script>
+}
