@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebShop.BLL.Interfaces;
+using WebShop.BLL.Models;
 using WebShop.MVC.Models;
 using WebShop.MVC.ViewModels.Home;
 
@@ -17,10 +18,24 @@ namespace WebShop.MVC.Controllers
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search, int? categoryId, decimal? minPrice, decimal? maxPrice, ProductSort sort = ProductSort.Newest, int page = 1)
         {
+            if (minPrice.HasValue && maxPrice.HasValue && minPrice > maxPrice)
+                (minPrice, maxPrice) = (maxPrice, minPrice);
+
+            var viewModel = new IndexViewModel
+            {
+                Search = search?.Trim(),
+                CategoryId = categoryId,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                Sort = sort,
+                Page = page
+            };
+
+            var result = await _productService.SearchAsync(viewModel.ToFilter());
             var categories = await _productService.GetCategoriesWithProductsAsync();
-            var viewModel = IndexViewModel.FromEntities(categories);
+            viewModel.Load(result, categories);
 
             return View(viewModel);
         }

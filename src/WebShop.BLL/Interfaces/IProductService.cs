@@ -1,4 +1,5 @@
-﻿using WebShop.DAL.Models;
+﻿using WebShop.BLL.Models;
+using WebShop.DAL.Models;
 
 namespace WebShop.BLL.Interfaces
 {
@@ -10,5 +11,6 @@ namespace WebShop.BLL.Interfaces
         Task<Product> UpdateAsync(Product category);
         Task<bool> DeleteAsync(int id);
         Task<List<Category>> GetCategoriesWithProductsAsync();
+        Task<PagedResult<Product>> SearchAsync(ProductFilter filter);
     }
 }

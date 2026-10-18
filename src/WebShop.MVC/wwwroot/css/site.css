@@ -28,3 +28,61 @@ div.dataTables_wrapper div.dataTables_length select {
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: initial !important;
 }
+
+.shop-hero {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    color: #fff;
+}
+
+.shop-hero .lead {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.shop-hero-search .form-control {
+    border: 0;
+}
+
+.shop-filter {
+    position: sticky;
+    top: 1rem;
+}
+
+.shop-chip {
+    font-weight: 500;
+    padding: 0.5em 0.9em;
+}
+
+.shop-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.shop-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.12) !important;
+}
+
+.shop-card-image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background-color: #f1f3f5;
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.shop-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.shop-card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

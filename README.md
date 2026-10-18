@@ -1,5 +1,5 @@
-# ais-2025
-Arhitektura informacionih sistema 2025
+# ais-2026
+Arhitektura informacionih sistema 2026
 ---
 - Potrebni alati i razvojna okruzenja za rad na demo projektu
 

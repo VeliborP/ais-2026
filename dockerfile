@@ -12,7 +12,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# For Render to work with PORT
 ENV ASPNETCORE_URLS=http://+:$PORT
 
 ENTRYPOINT ["dotnet", "WebShop.MVC.dll"]
