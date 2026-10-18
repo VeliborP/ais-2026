@@ -14,6 +14,8 @@ builder.Services.AddDbContext<WebShopDbContext>(options => options.UseSqlServer(
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddAuthentication("WebShop.User")
     .AddCookie("WebShop.User", options =>

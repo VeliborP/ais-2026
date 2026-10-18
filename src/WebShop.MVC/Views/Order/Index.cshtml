@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebShop.MVC.ViewModels.Order.OrderViewModel>
+
+@{
+    ViewData["Title"] = "My orders";
+}
+
+<h1>My orders</h1>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You have no orders yet.
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Start shopping</a>
+}
+else
+{
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.OrderNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+                <th class="text-end">@Html.DisplayNameFor(model => model.ItemCount)</th>
+                <th class="text-end">@Html.DisplayNameFor(model => model.TotalAmount)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.OrderNumber</td>
+                    <td>@item.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td class="text-end">@item.ItemCount</td>
+                    <td class="text-end">@item.TotalAmount.ToString("F")</td>
+                    <td><span class="badge @item.StatusBadgeClass">@item.Status</span></td>
+                    <td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

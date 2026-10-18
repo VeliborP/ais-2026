@@ -1,0 +1,62 @@
+﻿@model WebShop.MVC.ViewModels.Order.OrderViewModel
+
+@{
+    ViewData["Title"] = "Order " + Model.OrderNumber;
+}
+
+<h1>Order @Model.OrderNumber</h1>
+
+<p>
+    <span class="badge @Model.StatusBadgeClass">@Model.Status</span>
+    <span class="text-muted ms-2">@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</span>
+    @if (Model.StatusChangedAt.HasValue)
+    {
+        <span class="text-muted ms-2">(@Html.DisplayNameFor(model => model.StatusChangedAt): @Model.StatusChangedAt.Value.ToString("dd.MM.yyyy HH:mm"))</span>
+    }
+</p>
+
+<div class="row g-4">
+    <div class="col-md-8">
+        <h4>Items</h4>
+        <hr />
+        <partial name="_OrderItems" model="Model" />
+    </div>
+    <div class="col-md-4">
+        <h4>Customer</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Username)</dt>
+            <dd class="col-sm-8">@Model.Username</dd>
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd class="col-sm-8">@Model.Email</dd>
+        </dl>
+        <partial name="_ShippingDetails" model="Model" />
+
+        <h4 class="mt-4">Change status</h4>
+        <hr />
+        @if (Model.AllowedStatuses.Any())
+        {
+            <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post" class="d-flex gap-2">
+                <select name="status" class="form-select">
+                    @foreach (var status in Model.AllowedStatuses)
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        }
+        else
+        {
+            <p class="text-muted">The order is @Model.Status.ToString().ToLower() and its status can no longer be changed.</p>
+        }
+    </div>
+</div>
+
+<div class="d-flex gap-2">
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    @if (Model.Status == WebShop.DAL.Models.OrderStatus.Cancelled)
+    {
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+    }
+</div>
