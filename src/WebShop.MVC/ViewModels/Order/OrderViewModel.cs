@@ -7,40 +7,46 @@ namespace WebShop.MVC.ViewModels.Order
     {
         public int Id { get; set; }
 
-        [DisplayName("Order number")]
+        [DisplayName("Broj porudžbine")]
         public string OrderNumber { get; set; } = "";
 
-        [DisplayName("Date")]
+        [DisplayName("Datum")]
         public DateTime OrderDate { get; set; }
 
+        [DisplayName("Status")]
         public OrderStatus Status { get; set; }
 
-        [DisplayName("Status changed")]
+        [DisplayName("Status promenjen")]
         public DateTime? StatusChangedAt { get; set; }
 
-        [DisplayName("Customer")]
+        [DisplayName("Kupac")]
         public string Username { get; set; } = "";
 
+        [DisplayName("Email")]
         public string Email { get; set; } = "";
 
-        [DisplayName("Full name")]
+        [DisplayName("Ime i prezime")]
         public string FullName { get; set; } = "";
 
+        [DisplayName("Adresa")]
         public string Address { get; set; } = "";
 
+        [DisplayName("Grad")]
         public string City { get; set; } = "";
 
-        [DisplayName("Postal code")]
+        [DisplayName("Poštanski broj")]
         public string PostalCode { get; set; } = "";
 
+        [DisplayName("Telefon")]
         public string Phone { get; set; } = "";
 
+        [DisplayName("Napomena")]
         public string? Note { get; set; }
 
-        [DisplayName("Total")]
+        [DisplayName("Ukupno")]
         public decimal TotalAmount { get; set; }
 
-        [DisplayName("Items")]
+        [DisplayName("Broj artikala")]
         public int ItemCount { get; set; }
 
         public List<OrderItemViewModel> Items { get; set; } = [];
@@ -50,6 +56,21 @@ namespace WebShop.MVC.ViewModels.Order
         public bool CanCancel => Status == OrderStatus.New;
 
         public string StatusBadgeClass => GetStatusBadgeClass(Status);
+
+        public string StatusName => GetStatusName(Status);
+
+        public static string GetStatusName(OrderStatus status)
+        {
+            return status switch
+            {
+                OrderStatus.New => "Nova",
+                OrderStatus.Processing => "U obradi",
+                OrderStatus.Shipped => "Poslata",
+                OrderStatus.Delivered => "Isporučena",
+                OrderStatus.Cancelled => "Otkazana",
+                _ => status.ToString()
+            };
+        }
 
         public static string GetStatusBadgeClass(OrderStatus status)
         {

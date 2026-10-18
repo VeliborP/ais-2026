@@ -1,35 +1,35 @@
 ﻿@model WebShop.MVC.ViewModels.Order.OrderViewModel
 
 @{
-    ViewData["Title"] = "Order " + Model.OrderNumber;
+    ViewData["Title"] = "Porudžbina " + Model.OrderNumber;
 }
 
-<h1>Order @Model.OrderNumber</h1>
+<h1>Porudžbina @Model.OrderNumber</h1>
 
 <p>
-    <span class="badge @Model.StatusBadgeClass">@Model.Status</span>
+    <span class="badge @Model.StatusBadgeClass">@Model.StatusName</span>
     <span class="text-muted ms-2">@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</span>
 </p>
 
 <div class="row g-4">
     <div class="col-md-8">
-        <h4>Items</h4>
+        <h4>Stavke</h4>
         <hr />
         <partial name="_OrderItems" model="Model" />
     </div>
     <div class="col-md-4">
-        <h4>Shipping details</h4>
+        <h4>Podaci za dostavu</h4>
         <hr />
         <partial name="_ShippingDetails" model="Model" />
     </div>
 </div>
 
 <div class="d-flex gap-2">
-    <a asp-action="Index" class="btn btn-outline-secondary">Back to my orders</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Nazad na moje porudžbine</a>
     @if (Model.CanCancel)
     {
-        <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to cancel this order?');">
-            <button type="submit" class="btn btn-outline-danger">Cancel order</button>
+        <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Da li ste sigurni da želite da otkažete ovu porudžbinu?');">
+            <button type="submit" class="btn btn-outline-danger">Otkaži porudžbinu</button>
         </form>
     }
 </div>

@@ -1,14 +1,25 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.WebEncoders;
 using WebShop.BLL.Interfaces;
 using WebShop.BLL.Services;
 using WebShop.DAL;
+using WebShop.DAL.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-//builder.WebHost.UseUrls($"http://*:{port}");
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    var messages = options.ModelBindingMessageProvider;
+    messages.SetValueMustNotBeNullAccessor(_ => "Polje je obavezno.");
+    messages.SetValueMustBeANumberAccessor(field => $"Polje {field} mora biti broj.");
+    messages.SetAttemptedValueIsInvalidAccessor((value, field) => $"Vrednost '{value}' nije ispravna za polje {field}.");
+    messages.SetMissingBindRequiredValueAccessor(field => $"Vrednost za polje {field} nije uneta.");
+});
+builder.Services.Configure<WebEncoderOptions>(options =>
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
+
 builder.Services.AddDbContext<WebShopDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("WebShopDbContext")));
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -29,11 +40,15 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<WebShopDbContext>();
+    await DbSeeder.InitializeAsync(context);
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

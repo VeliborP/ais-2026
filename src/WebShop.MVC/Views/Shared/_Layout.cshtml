@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,24 +22,24 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Početna</a>
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Kategorije</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Proizvodi</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AdminOrder" asp-action="Index">Orders</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="AdminOrder" asp-action="Index">Porudžbine</a>
                             </li>
                         }
                         @if (User.IsInRole("User"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">My orders</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Moje porudžbine</a>
                             </li>
                         }
                     </ul>
@@ -63,7 +63,7 @@
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-outline-danger btn-sm">
-                                        Logout
+                                        Odjava
                                     </button>
                                 </form>
                             </li>
@@ -72,7 +72,7 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Account" asp-action="Login">
-                                    Login
+                                    Prijava
                                 </a>
                             </li>
                         }
@@ -91,7 +91,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - WebShop.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - WebShop.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Politika privatnosti</a> - <a asp-area="" asp-controller="Home" asp-action="Contact">Kontakt</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

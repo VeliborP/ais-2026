@@ -2,8 +2,6 @@
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace WebShop.DAL.Migrations
 {
     /// <inheritdoc />
@@ -48,45 +46,6 @@ namespace WebShop.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Code", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, "CAT-001", "Razne elektronske uređaje, uključujući računare, telefone i dodatke.", "Elektronika" },
-                    { 2, "CAT-002", "Knjige svih žanrova: edukativne, beletristika i priručnici.", "Knjige" },
-                    { 3, "CAT-003", "Različita odeća za muškarce, žene i decu.", "Odeća" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Admin" },
-                    { 2, "User" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "CategoryId", "Code", "Description", "ImagePath", "Name", "Price" },
-                values: new object[,]
-                {
-                    { 1, 1, "PROD-001", "Laptop sa Intel i7 procesorom, 16GB RAM i SSD diskom.", null, "Laptop", 1200m },
-                    { 2, 1, "PROD-002", "Smartphone sa 6.5\" ekranom, 128GB memorije i trostrukom kamerom.", null, "Pametni telefon", 800m },
-                    { 3, 2, "PROD-003", "Detaljna knjiga o razvoju web aplikacija u ASP.NET Core.", null, "ASP.NET Core knjiga", 35m },
-                    { 4, 3, "PROD-004", "Pamučna majica različitih veličina i boja.", null, "Majica", 20m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "IsActive", "Password", "RoleId", "Username" },
-                values: new object[,]
-                {
-                    { 1, "admin@test.com", true, "admin123", 1, "admin" },
-                    { 2, "user@test.com", true, "user123", 2, "user" }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
@@ -101,41 +60,6 @@ namespace WebShop.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "Categories",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Categories",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "Categories",
-                keyColumn: "Id",
-                keyValue: 3);
         }
     }
 }

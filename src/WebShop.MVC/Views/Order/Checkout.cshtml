@@ -1,16 +1,16 @@
 ﻿@model WebShop.MVC.ViewModels.Order.CheckoutViewModel
 
 @{
-    ViewData["Title"] = "Checkout";
+    ViewData["Title"] = "Poručivanje";
 }
 
-<h1>Checkout</h1>
+<h1>Poručivanje</h1>
 
 <div class="row g-4">
     <div class="col-md-7">
-        <h4>Shipping details</h4>
+        <h4>Podaci za dostavu</h4>
         <hr />
-        <form asp-action="Checkout" method="post">
+        <form asp-action="Poručivanje" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
@@ -47,14 +47,14 @@
             </div>
 
             <div class="d-flex gap-2">
-                <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-secondary">Back to cart</a>
-                <button type="submit" class="btn btn-primary">Place order</button>
+                <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-secondary">Nazad u korpu</a>
+                <button type="submit" class="btn btn-primary">Potvrdi porudžbinu</button>
             </div>
         </form>
     </div>
 
     <div class="col-md-5">
-        <h4>Order summary</h4>
+        <h4>Pregled porudžbine</h4>
         <hr />
         <ul class="list-group mb-3">
             @foreach (var item in Model.Cart.Items)
@@ -65,7 +65,7 @@
                 </li>
             }
             <li class="list-group-item d-flex justify-content-between fw-bold">
-                <span>Total</span>
+                <span>Ukupno</span>
                 <span>@Model.Cart.TotalAmount.ToString("F")</span>
             </li>
         </ul>

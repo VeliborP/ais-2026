@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<WebShop.MVC.ViewModels.Order.OrderViewModel>
 
 @{
-    ViewData["Title"] = "My orders";
+    ViewData["Title"] = "Moje porudžbine";
 }
 
-<h1>My orders</h1>
+<h1>Moje porudžbine</h1>
 
 @if (!Model.Any())
 {
     <div class="alert alert-info">
-        You have no orders yet.
+        Još uvek nemate porudžbina.
     </div>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Start shopping</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Započni kupovinu</a>
 }
 else
 {
@@ -34,8 +34,8 @@ else
                     <td>@item.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
                     <td class="text-end">@item.ItemCount</td>
                     <td class="text-end">@item.TotalAmount.ToString("F")</td>
-                    <td><span class="badge @item.StatusBadgeClass">@item.Status</span></td>
-                    <td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+                    <td><span class="badge @item.StatusBadgeClass">@item.StatusName</span></td>
+                    <td><a asp-action="Details" asp-route-id="@item.Id">Detalji</a></td>
                 </tr>
             }
         </tbody>

@@ -29,9 +29,9 @@ namespace WebShop.MVC.Controllers
             var added = await _cartService.AddAsync(User.GetUserId(), productId, quantity);
 
             if (added)
-                TempData["Success"] = "Product added to cart.";
+                TempData["Success"] = "Proizvod je dodat u korpu.";
             else
-                TempData["Error"] = "Product could not be added to cart.";
+                TempData["Error"] = "Proizvod nije moguće dodati u korpu.";
 
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 return LocalRedirect(returnUrl);
@@ -44,7 +44,7 @@ namespace WebShop.MVC.Controllers
         public async Task<IActionResult> Update(int id, int quantity)
         {
             if (!await _cartService.UpdateQuantityAsync(User.GetUserId(), id, quantity))
-                TempData["Error"] = "Cart item not found.";
+                TempData["Error"] = "Stavka korpe nije pronađena.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -54,7 +54,7 @@ namespace WebShop.MVC.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             if (!await _cartService.RemoveAsync(User.GetUserId(), id))
-                TempData["Error"] = "Cart item not found.";
+                TempData["Error"] = "Stavka korpe nije pronađena.";
 
             return RedirectToAction(nameof(Index));
         }

@@ -38,9 +38,9 @@ namespace WebShop.MVC.Controllers
         public async Task<IActionResult> UpdateStatus(int id, OrderStatus status)
         {
             if (await _orderService.UpdateStatusAsync(id, status))
-                TempData["Success"] = $"Order status changed to {status}.";
+                TempData["Success"] = $"Status porudžbine je promenjen u „{OrderViewModel.GetStatusName(status)}“.";
             else
-                TempData["Error"] = "Order status could not be changed.";
+                TempData["Error"] = "Status porudžbine nije moguće promeniti.";
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -59,11 +59,11 @@ namespace WebShop.MVC.Controllers
         {
             if (!await _orderService.DeleteAsync(id))
             {
-                TempData["Error"] = "Only cancelled orders can be deleted.";
+                TempData["Error"] = "Moguće je obrisati samo otkazane porudžbine.";
                 return RedirectToAction(nameof(Details), new { id });
             }
 
-            TempData["Success"] = "Order has been deleted.";
+            TempData["Success"] = "Porudžbina je obrisana.";
             return RedirectToAction(nameof(Index));
         }
     }

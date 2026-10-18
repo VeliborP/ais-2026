@@ -54,7 +54,6 @@ namespace WebShop.MVC.Controllers
 
             if (vm.ImageFile != null && vm.ImageFile.Length > 0)
             {
-                // serverska validacija, samo fajlovi sa doazvoljenim ekstenzijama
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
                 var extension = Path.GetExtension(vm.ImageFile.FileName).ToLower();
 
@@ -68,12 +67,11 @@ namespace WebShop.MVC.Controllers
                         Selected = model.Id == vm.CategoryId
                     }).ToList();
 
-                    ModelState.AddModelError("ImageFile", "Only JPG, PNG, GIF images are allowed.");
+                    ModelState.AddModelError("ImageFile", "Dozvoljene su samo JPG, PNG i GIF slike.");
                     return View(vm);
                 }
 
-                // ograničenje veličine fajla
-                if (vm.ImageFile.Length > 5_000_000) // 5 MB
+                if (vm.ImageFile.Length > 5_000_000)
                 {
                     var categories = await _categoryService.GetAllAsync();
                     vm.Categories = categories.Select(model => new SelectListItem
@@ -83,7 +81,7 @@ namespace WebShop.MVC.Controllers
                         Selected = model.Id == vm.CategoryId
                     }).ToList();
 
-                    ModelState.AddModelError("ImageFile", "File size must be less than 5 MB.");
+                    ModelState.AddModelError("ImageFile", "Veličina fajla mora biti manja od 5 MB.");
                     return View(vm);
                 }
 
@@ -101,7 +99,6 @@ namespace WebShop.MVC.Controllers
                 imagePath = "/uploads/" + fileName;
             }
 
-            //prosledjivanje putanju ka slici na entity model
             var entity = vm.ToEntity(imagePath);
 
             await _productService.CreateAsync(entity);
@@ -128,9 +125,8 @@ namespace WebShop.MVC.Controllers
             if (id != vm.Id) return BadRequest();
             if (!ModelState.IsValid) return View(vm);
 
-            string? imagePath = vm.ImagePath; // zadrži staru sliku
+            string? imagePath = vm.ImagePath;
 
-            // Ako se izabere brisanje slike
             if (vm.DeleteImage && !string.IsNullOrEmpty(vm.ImagePath))
             {
                 string oldPath = Path.Combine(
@@ -145,10 +141,8 @@ namespace WebShop.MVC.Controllers
                 imagePath = null;
             }
 
-            // Ako je uploadovana nova slika
             if (vm.ImageFile != null && vm.ImageFile.Length > 0)
             {
-                // serverska validacija, samo fajlovi sa doazvoljenim ekstenzijama
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
                 var extension = Path.GetExtension(vm.ImageFile.FileName).ToLower();
 
@@ -162,12 +156,11 @@ namespace WebShop.MVC.Controllers
                         Selected = model.Id == vm.CategoryId
                     }).ToList();
 
-                    ModelState.AddModelError("ImageFile", "Only JPG, PNG, GIF images are allowed.");
+                    ModelState.AddModelError("ImageFile", "Dozvoljene su samo JPG, PNG i GIF slike.");
                     return View(vm);
                 }
 
-                // ograničenje veličine fajla
-                if (vm.ImageFile.Length > 5_000_000) // 5 MB
+                if (vm.ImageFile.Length > 5_000_000)
                 {
                     var categories = await _categoryService.GetAllAsync();
                     vm.Categories = categories.Select(model => new SelectListItem
@@ -177,7 +170,7 @@ namespace WebShop.MVC.Controllers
                         Selected = model.Id == vm.CategoryId
                     }).ToList();
 
-                    ModelState.AddModelError("ImageFile", "File size must be less than 5 MB.");
+                    ModelState.AddModelError("ImageFile", "Veličina fajla mora biti manja od 5 MB.");
                     return View(vm);
                 }
 
@@ -195,10 +188,8 @@ namespace WebShop.MVC.Controllers
                 imagePath = "/uploads/" + fileName;
             }
 
-            // Kreiramo entity sa novom/postaćom slikom
             var entity = vm.ToEntity(imagePath, vm.DeleteImage);
 
-            // Update preko servisa
             await _productService.UpdateAsync(entity);
 
             return RedirectToAction(nameof(Index));

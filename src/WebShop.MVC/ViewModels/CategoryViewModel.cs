@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using WebShop.DAL.Models;
 
 namespace WebShop.MVC.ViewModels
@@ -7,12 +8,15 @@ namespace WebShop.MVC.ViewModels
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Code is required")]
+        [Required(ErrorMessage = "Šifra je obavezna")]
+        [DisplayName("Šifra")]
         public required string Code { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
+        [Required(ErrorMessage = "Naziv je obavezan")]
+        [DisplayName("Naziv")]
         public required string Name { get; set; }
 
+        [DisplayName("Opis")]
         public string? Description { get; set; }
 
 

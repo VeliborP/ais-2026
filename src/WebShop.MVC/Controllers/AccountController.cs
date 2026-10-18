@@ -34,7 +34,7 @@ namespace WebShop.MVC.Controllers
 
             if (user == null)
             {
-                ViewBag.Error = "Invalid login credentials";
+                ViewBag.Error = "Pogrešno korisničko ime ili lozinka";
                 return View();
             }
 

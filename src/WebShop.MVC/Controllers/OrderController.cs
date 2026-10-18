@@ -39,7 +39,7 @@ namespace WebShop.MVC.Controllers
             var cart = await LoadCartAsync();
             if (cart.IsEmpty)
             {
-                TempData["Error"] = "Your cart is empty.";
+                TempData["Error"] = "Vaša korpa je prazna.";
                 return RedirectToAction("Index", "Cart");
             }
 
@@ -59,11 +59,11 @@ namespace WebShop.MVC.Controllers
             var order = await _orderService.CreateFromCartAsync(User.GetUserId(), vm.ToEntity());
             if (order == null)
             {
-                TempData["Error"] = "Your cart is empty.";
+                TempData["Error"] = "Vaša korpa je prazna.";
                 return RedirectToAction("Index", "Cart");
             }
 
-            TempData["Success"] = $"Order {order.OrderNumber} has been created successfully.";
+            TempData["Success"] = $"Porudžbina {order.OrderNumber} je uspešno kreirana.";
             return RedirectToAction(nameof(Details), new { id = order.Id });
         }
 
@@ -72,9 +72,9 @@ namespace WebShop.MVC.Controllers
         public async Task<IActionResult> Cancel(int id)
         {
             if (await _orderService.CancelByUserAsync(id, User.GetUserId()))
-                TempData["Success"] = "Order has been cancelled.";
+                TempData["Success"] = "Porudžbina je otkazana.";
             else
-                TempData["Error"] = "Only new orders can be cancelled.";
+                TempData["Error"] = "Moguće je otkazati samo nove porudžbine.";
 
             return RedirectToAction(nameof(Details), new { id });
         }

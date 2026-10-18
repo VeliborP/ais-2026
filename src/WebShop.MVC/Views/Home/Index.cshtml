@@ -1,7 +1,7 @@
 ﻿@model WebShop.MVC.ViewModels.Home.IndexViewModel
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Proizvodi";
 }
 
 @foreach (var category in Model.Categories)
@@ -25,7 +25,7 @@
                     {
                         <div class="d-flex align-items-center justify-content-center bg-light"
                              style="height:200px;">
-                            <span class="text-muted">No image</span>
+                            <span class="text-muted">Nema slike</span>
                         </div>
                     }
 
@@ -41,14 +41,14 @@
                                asp-action="Details"
                                asp-route-id="@product.Id"
                                class="btn btn-outline-primary">
-                                Details
+                                Detalji
                             </a>
                             @if (User.IsInRole("User"))
                             {
                                 <form asp-controller="Cart" asp-action="Add" method="post">
                                     <input type="hidden" name="productId" value="@product.Id" />
                                     <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Home")" />
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                    <button type="submit" class="btn btn-primary">Dodaj u korpu</button>
                                 </form>
                             }
                             else if (User.Identity?.IsAuthenticated != true)
@@ -56,7 +56,7 @@
                                 <a asp-controller="Account"
                                    asp-action="Login"
                                    class="btn btn-outline-secondary">
-                                    Login to buy
+                                    Prijavite se za kupovinu
                                 </a>
                             }
                         </div>

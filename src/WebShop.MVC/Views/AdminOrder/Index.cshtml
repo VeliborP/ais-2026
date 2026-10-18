@@ -1,12 +1,13 @@
 ﻿@using WebShop.DAL.Models
+@using WebShop.MVC.ViewModels.Order
 @model IEnumerable<WebShop.MVC.ViewModels.Order.OrderViewModel>
 
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "Porudžbine";
     var selectedStatus = ViewBag.SelectedStatus as OrderStatus?;
 }
 
-<h1>Orders</h1>
+<h1>Porudžbine</h1>
 
 <form asp-action="Index" method="get" class="row g-2 align-items-center mb-3">
     <div class="col-auto">
@@ -14,10 +15,10 @@
     </div>
     <div class="col-auto">
         <select id="status" name="status" class="form-select" onchange="this.form.submit()">
-            <option value="">All</option>
+            <option value="">Sve</option>
             @foreach (var status in Enum.GetValues<OrderStatus>())
             {
-                <option value="@status" selected="@(selectedStatus == status)">@status</option>
+                <option value="@status" selected="@(selectedStatus == status)">@OrderViewModel.GetStatusName(status)</option>
             }
         </select>
     </div>
@@ -46,8 +47,8 @@
                 <td>@item.City</td>
                 <td class="text-end">@item.ItemCount</td>
                 <td class="text-end">@item.TotalAmount.ToString("F")</td>
-                <td><span class="badge @item.StatusBadgeClass">@item.Status</span></td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+                <td><span class="badge @item.StatusBadgeClass">@item.StatusName</span></td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">Detalji</a></td>
             </tr>
         }
     </tbody>
@@ -62,9 +63,7 @@
             "info": true,
             "lengthChange": true,
             "order": [[1, "desc"]],
-            "language": {
-                "search": "Filter records:"
-            }
+            "language": dataTablesLanguage
         });
     </script>
 }

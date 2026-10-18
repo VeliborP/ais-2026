@@ -6,30 +6,34 @@ namespace WebShop.MVC.ViewModels.Order
 {
     public class CheckoutViewModel
     {
-        [Required(ErrorMessage = "Full name is required")]
-        [StringLength(150)]
-        [DisplayName("Full name")]
+        [Required(ErrorMessage = "Ime i prezime je obavezno")]
+        [StringLength(150, ErrorMessage = "Maksimalno 150 karaktera")]
+        [DisplayName("Ime i prezime")]
         public string FullName { get; set; } = "";
 
-        [Required(ErrorMessage = "Address is required")]
-        [StringLength(250)]
+        [Required(ErrorMessage = "Adresa je obavezna")]
+        [StringLength(250, ErrorMessage = "Maksimalno 250 karaktera")]
+        [DisplayName("Adresa")]
         public string Address { get; set; } = "";
 
-        [Required(ErrorMessage = "City is required")]
-        [StringLength(100)]
+        [Required(ErrorMessage = "Grad je obavezan")]
+        [StringLength(100, ErrorMessage = "Maksimalno 100 karaktera")]
+        [DisplayName("Grad")]
         public string City { get; set; } = "";
 
-        [Required(ErrorMessage = "Postal code is required")]
-        [StringLength(20)]
-        [DisplayName("Postal code")]
+        [Required(ErrorMessage = "Poštanski broj je obavezan")]
+        [StringLength(20, ErrorMessage = "Maksimalno 20 karaktera")]
+        [DisplayName("Poštanski broj")]
         public string PostalCode { get; set; } = "";
 
-        [Required(ErrorMessage = "Phone is required")]
-        [StringLength(30)]
-        [Phone(ErrorMessage = "Phone number is not valid")]
+        [Required(ErrorMessage = "Telefon je obavezan")]
+        [StringLength(30, ErrorMessage = "Maksimalno 30 karaktera")]
+        [Phone(ErrorMessage = "Broj telefona nije ispravan")]
+        [DisplayName("Telefon")]
         public string Phone { get; set; } = "";
 
-        [StringLength(1000)]
+        [StringLength(1000, ErrorMessage = "Maksimalno 1000 karaktera")]
+        [DisplayName("Napomena")]
         public string? Note { get; set; }
 
         public CartViewModel Cart { get; set; } = new CartViewModel();

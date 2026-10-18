@@ -77,29 +77,6 @@ namespace WebShop.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "CAT-001",
-                            Description = "Razne elektronske uređaje, uključujući računare, telefone i dodatke.",
-                            Name = "Elektronika"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "CAT-002",
-                            Description = "Knjige svih žanrova: edukativne, beletristika i priručnici.",
-                            Name = "Knjige"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "CAT-003",
-                            Description = "Različita odeća za muškarce, žene i decu.",
-                            Name = "Odeća"
-                        });
                 });
 
             modelBuilder.Entity("WebShop.DAL.Models.Order", b =>
@@ -248,44 +225,6 @@ namespace WebShop.DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Code = "PROD-001",
-                            Description = "Laptop sa Intel i7 procesorom, 16GB RAM i SSD diskom.",
-                            Name = "Laptop",
-                            Price = 1200m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 1,
-                            Code = "PROD-002",
-                            Description = "Smartphone sa 6.5\" ekranom, 128GB memorije i trostrukom kamerom.",
-                            Name = "Pametni telefon",
-                            Price = 800m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 2,
-                            Code = "PROD-003",
-                            Description = "Detaljna knjiga o razvoju web aplikacija u ASP.NET Core.",
-                            Name = "ASP.NET Core knjiga",
-                            Price = 35m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 3,
-                            Code = "PROD-004",
-                            Description = "Pamučna majica različitih veličina i boja.",
-                            Name = "Majica",
-                            Price = 20m
-                        });
                 });
 
             modelBuilder.Entity("WebShop.DAL.Models.Role", b =>
@@ -304,18 +243,6 @@ namespace WebShop.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "User"
-                        });
                 });
 
             modelBuilder.Entity("WebShop.DAL.Models.User", b =>
@@ -352,26 +279,6 @@ namespace WebShop.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "admin@test.com",
-                            IsActive = true,
-                            Password = "admin123",
-                            RoleId = 1,
-                            Username = "admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "user@test.com",
-                            IsActive = true,
-                            Password = "user123",
-                            RoleId = 2,
-                            Username = "user"
-                        });
                 });
 
             modelBuilder.Entity("WebShop.DAL.Models.CartItem", b =>

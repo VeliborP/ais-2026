@@ -1,13 +1,13 @@
 ﻿@model WebShop.MVC.ViewModels.ProductViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalji";
 }
 
-<h1>Details</h1>
+<h1>Detalji</h1>
 
 <div>
-    <h4>Product</h4>
+    <h4>Proizvod</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -49,7 +49,7 @@
                 @Html.DisplayNameFor(model => model.ImagePath)
             </dt>
             <div class="mb-2">
-                <span>Product has no image</span>
+                <span>Proizvod nema sliku</span>
             </div>
         }
         <dt class="col-sm-2">
@@ -66,13 +66,13 @@
         <input type="hidden" name="productId" value="@Model.Id" />
         <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Product", new { id = Model.Id })" />
         <input type="number" name="quantity" value="1" min="1" max="100" class="form-control" />
-        <button type="submit" class="btn btn-primary text-nowrap">Add to cart</button>
+        <button type="submit" class="btn btn-primary text-nowrap">Dodaj u korpu</button>
     </form>
 }
 @if (User.IsInRole("Admin"))
 {
     <div>
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Izmeni</a> |
+        <a asp-action="Index">Nazad na listu</a>
     </div>
 }

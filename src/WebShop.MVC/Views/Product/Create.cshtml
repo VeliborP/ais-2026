@@ -1,16 +1,15 @@
 ﻿@model WebShop.MVC.ViewModels.ProductViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Kreiranje";
 }
 
-<h1>Create</h1>
+<h1>Kreiranje</h1>
 
-<h4>Product</h4>
+<h4>Proizvod</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @* dodati zbog upload-a slike unutar forme - enctype="multipart/form-data" *@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -39,7 +38,7 @@
                 <input asp-for="ImageFile" type="file" class="form-control" accept="image/png, image/jpeg, image/jpg, image/gif" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
 
-                <button type="button" class="btn btn-sm btn-danger mt-2" id="clearImageBtn"> Delete image </button>
+                <button type="button" class="btn btn-sm btn-danger mt-2" id="clearImageBtn">Obriši sliku</button>
             </div>
             <div class="mt-3">
                 <img id="preview" class="img-thumbnail d-none" style="max-width:200px;" />
@@ -56,14 +55,14 @@
                 <select asp-for="CategoryId" class="form-control" asp-items="Model.Categories"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Kreiraj" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Nazad na listu</a>
 </div>
 
 @section Scripts {

@@ -1,16 +1,12 @@
 ﻿@model IEnumerable<WebShop.MVC.ViewModels.CategoryViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Kategorije";
 }
-<style>
-    
-</style>
-
-<h1>Categories</h1>
+<h1>Kategorije</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Dodaj novu kategoriju</a>
 </p>
 <table id="categoriesTable" class="table">
     <thead>
@@ -40,9 +36,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Izmeni</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalji</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Obriši</a>
             </td>
         </tr>
 }
@@ -57,9 +53,7 @@
             "ordering": true,
             "info": true,
             "lengthChange": true,
-            "language": {
-                "search": "Filter records:"
-            }
+            "language": dataTablesLanguage
         });
     </script>
 }

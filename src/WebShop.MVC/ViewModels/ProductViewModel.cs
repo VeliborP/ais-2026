@@ -14,27 +14,30 @@ namespace WebShop.MVC.ViewModels
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Code is required")]
+        [Required(ErrorMessage = "Šifra je obavezna")]
+        [DisplayName("Šifra")]
         public required string Code { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
-        
+        [Required(ErrorMessage = "Naziv je obavezan")]
+        [DisplayName("Naziv")]
         public required string Name { get; set; }
-        
+
+        [DisplayName("Opis")]
         public string? Description { get; set; }
 
-        [Required(ErrorMessage = "Price is required")]
-        [Range(0.01, 1000000, ErrorMessage = "Price must be between 0.01 and 1,000,000")]
+        [Required(ErrorMessage = "Cena je obavezna")]
+        [DisplayName("Cena")]
+        [Range(0.01, 1000000, ErrorMessage = "Cena mora biti između 0,01 i 1.000.000")]
         public decimal Price { get; set; }
 
-        [DisplayName("Category name")]
+        [DisplayName("Kategorija")]
         public string? CategoryName { get; set; }
+        [DisplayName("Kategorija")]
         public int? CategoryId { get; set; }
 
-        //upload slike proizvoda
-        [DisplayName("Product image")]
+        [DisplayName("Slika proizvoda")]
         public IFormFile? ImageFile { get; set; }
-        [DisplayName("Product image")]
+        [DisplayName("Slika proizvoda")]
         public string? ImagePath { get; set; }
         public bool DeleteImage { get; set; }
 
@@ -47,9 +50,9 @@ namespace WebShop.MVC.ViewModels
                 Id = product.Id,
                 Code = product.Code,
                 Name = product.Name,
-                Description = product.Description == null ? "Empty description" : product.Description,
+                Description = product.Description == null ? "Nema opisa" : product.Description,
                 Price = product.Price,
-                CategoryName = product.Category == null ? "No category" : product.Category.Name,
+                CategoryName = product.Category == null ? "Bez kategorije" : product.Category.Name,
                 CategoryId = product.CategoryId,
                 ImagePath = product.ImagePath
             };
