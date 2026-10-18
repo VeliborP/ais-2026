@@ -1,0 +1,79 @@
+﻿@model WebShop.MVC.ViewModels.Cart.CartViewModel
+
+@{
+    ViewData["Title"] = "Korpa";
+}
+
+<h1>Korpa</h1>
+
+@if (Model.IsEmpty)
+{
+    <div class="alert alert-info">
+        Vaša korpa je prazna.
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Nastavi kupovinu</a>
+}
+else
+{
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Proizvod</th>
+                <th class="text-end">Cena</th>
+                <th style="width:180px;">Količina</th>
+                <th class="text-end">Ukupno</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td style="width:80px;">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="@item.ImagePath" style="width:64px; height:64px; object-fit:cover;" />
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId">@item.ProductName</a>
+                        <div class="text-muted small">@item.ProductCode</div>
+                    </td>
+                    <td class="text-end">@item.UnitPrice.ToString("F")</td>
+                    <td>
+                        <form asp-action="Update" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" max="100" class="form-control form-control-sm" />
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Ažuriraj</button>
+                        </form>
+                    </td>
+                    <td class="text-end">@item.LineTotal.ToString("F")</td>
+                    <td class="text-end">
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Ukloni</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4" class="text-end">Ukupno</th>
+                <th class="text-end">@Model.TotalAmount.ToString("F")</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        <div class="d-flex gap-2">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Nastavi kupovinu</a>
+            <form asp-action="Clear" method="post">
+                <button type="submit" class="btn btn-outline-danger">Isprazni korpu</button>
+            </form>
+        </div>
+        <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary">Poruči</a>
+    </div>
+}

@@ -1,0 +1,17 @@
+﻿@model List<StudentViewModel>
+
+@{
+    ViewData["Title"] = "O nama";
+}
+
+<h1 class="mb-4">O nama</h1>
+
+@foreach(var student in Model)
+{
+    <div>
+        <p>Id: @student.Id</p>
+        <p>Ime: @student.Name</p>
+        <p>Broj indeksa: @student.IdNumber</p>
+    </div>
+    <hr />
+}

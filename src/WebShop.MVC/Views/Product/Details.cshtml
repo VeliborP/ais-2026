@@ -1,0 +1,78 @@
+﻿@model WebShop.MVC.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<h1>Detalji</h1>
+
+<div>
+    <h4>Proizvod</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </dt>
+            <div class="mb-2">
+                <img src="@Model.ImagePath" width="150" />
+            </div>
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </dt>
+            <div class="mb-2">
+                <span>Proizvod nema sliku</span>
+            </div>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+    </dl>
+</div>
+@if (User.IsInRole("User"))
+{
+    <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2 mb-3" style="max-width:300px;">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Product", new { id = Model.Id })" />
+        <input type="number" name="quantity" value="1" min="1" max="100" class="form-control" />
+        <button type="submit" class="btn btn-primary text-nowrap">Dodaj u korpu</button>
+    </form>
+}
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Izmeni</a> |
+        <a asp-action="Index">Nazad na listu</a>
+    </div>
+}

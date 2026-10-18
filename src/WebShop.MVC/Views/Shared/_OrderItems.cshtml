@@ -1,0 +1,31 @@
+﻿@model WebShop.MVC.ViewModels.Order.OrderViewModel
+
+<table class="table align-middle">
+    <thead>
+        <tr>
+            <th>Šifra</th>
+            <th>Proizvod</th>
+            <th class="text-end">Cena</th>
+            <th class="text-end">Količina</th>
+            <th class="text-end">Ukupno</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.ProductCode</td>
+                <td>@item.ProductName</td>
+                <td class="text-end">@item.UnitPrice.ToString("F")</td>
+                <td class="text-end">@item.Quantity</td>
+                <td class="text-end">@item.LineTotal.ToString("F")</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" class="text-end">Ukupno</th>
+            <th class="text-end">@Model.TotalAmount.ToString("F")</th>
+        </tr>
+    </tfoot>
+</table>

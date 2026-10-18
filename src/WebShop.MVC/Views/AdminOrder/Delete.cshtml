@@ -1,0 +1,31 @@
+﻿@model WebShop.MVC.ViewModels.Order.OrderViewModel
+
+@{
+    ViewData["Title"] = "Brisanje";
+}
+
+<h1>Brisanje</h1>
+
+<h3>Da li ste sigurni da želite da obrišete ovu porudžbinu?</h3>
+<div>
+    <h4>Porudžbina</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.OrderNumber)</dt>
+        <dd class="col-sm-10">@Model.OrderNumber</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.OrderDate)</dt>
+        <dd class="col-sm-10">@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Username)</dt>
+        <dd class="col-sm-10">@Model.Username</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.TotalAmount)</dt>
+        <dd class="col-sm-10">@Model.TotalAmount.ToString("F")</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd class="col-sm-10">@Model.StatusName</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="submit" value="Obriši" class="btn btn-danger" /> |
+        <a asp-action="Details" asp-route-id="@Model.Id">Nazad</a>
+    </form>
+</div>
